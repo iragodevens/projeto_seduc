@@ -13,17 +13,18 @@ body {
 }
 
 .banner h1 {
-    color: rgb(224, 213, 213);
+    color: rgb(255, 255, 255);
 }
 
 .card {
     margin: 0 12px;
-    border: 6px solid #000;
+    border: 6px solid #726767;
     border-radius: 6px;
     transition: transform 0.2s;
-    backdrop-filter: blur(4px);
-    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(1px);
+    background-color: rgba(255, 255, 255, 0.4);
     box-shadow: 8px 4px 7px rgba(0, 0, 0, 0.6);
+    font-weight: bold; 
 }
 
 .card:hover {

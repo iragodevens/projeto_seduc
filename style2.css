@@ -1,0 +1,18 @@
+.card {
+  cursor: pointer;
+  
+}
+
+.card:hover {
+background-color: rgb(105, 98, 98) !important; 
+}
+.form-container{
+max-width: 8000px;
+padding-block: 300px;
+}
+
+body{
+background-image: url(fundoo.jpg);
+backdrop-filter: blur(6px);
+background-size:cover;
+}

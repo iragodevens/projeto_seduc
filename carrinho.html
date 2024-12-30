@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -29,83 +28,62 @@
     </nav>
     <div class="container d-flex justify-content-center align-items-center flex-column" style="min-height: 90vh;">
         <div class="cart-modal " style="height: 50%;">
-                <h2 class="mb-4 text-center">Seu Carrinho</h2>
-                <div class="card-title mb-4 flex-grow-1">
-                    <table class="table">
-                        <thead>
-                            <tr class="text-center">
-                                <th>Item</th>
-                                <th>Preço</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cart-items"></tbody>
-                    </table>
+            <h2 class="mb-4 text-center">Seu Carrinho</h2>
+            <div class="card-title mb-4 flex-grow-1">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Item</th>
+                            <th>Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items"></tbody>
+                </table>
+            </div>
+            <b class="cart-total text-center">Total: R$ <span id="cart-total">0.00</span></b>
+            <div class="d-flex justify-content-center mt-4">
+                <button class="btn btn-danger me-3" id="clear-cart-button">Limpar Carrinho</button>
+                <button class="btn btn-success me-3" id="checkout-button">Finalizar Pedido</button>
+            </div>
+
+
+
+
+            <div id="loading-screen">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
                 </div>
-                <b class="cart-total text-center">Total: R$ <span id="cart-total">0.00</span></b>
-                <div class="d-flex justify-content-center mt-4">
-                    <button class="btn btn-danger me-3" id="clear-cart-button">Limpar Carrinho</button>
-                    <button class="btn btn-success me-3" id="checkout-button">Finalizar Pedido</button>
-                </div>
-            
-        
+            </div>
 
+            <script>
+                const cartItemsElem = document.getElementById('cart-items');
+                const cartTotalElem = document.getElementById('cart-total');
 
-    <div id="loading-screen">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Carregando...</span>
-        </div>
-    </div>
+                function loadCart() {
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                    let total = 0;
+                    cartItemsElem.innerHTML = '';
 
-    <script>
-        const cartItemsElem = document.getElementById('cart-items');
-        const cartTotalElem = document.getElementById('cart-total');
-
-        function loadCart() {
-            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-            let total = 0;
-            cartItemsElem.innerHTML = '';
-
-            cartItems.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>R$ ${item.price.toFixed(2)}</td>
-                    <td><button class="btn btn-danger remove-item" data-index="${index}">Remover</button></td>
-                `;
-                cartItemsElem.appendChild(row);
-                total += item.price;
-            });
-
-            cartTotalElem.innerText = total.toFixed(2);
-
-<<<<<<< HEAD
-                    cartTotalElem.innerText = total.toFixed(2);
-
-                    
-                    document.querySelectorAll('.quantity-input').forEach(input => {
-                        input.addEventListener('change', (e) => {
-                            const index = e.target.getAttribute('data-index');
-                            updateQuantity(index, parseInt(e.target.value));
-                        });
+                    cartItems.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.name}</td>
+                            <td>R$ ${item.price.toFixed(2)}</td>
+                            <td><button class="btn btn-danger remove-item" data-index="${index}">Remover</button></td>
+                        `;
+                        cartItemsElem.appendChild(row);
+                        total += item.price * (item.quantity || 1); // Quantidade padrão 1
                     });
 
+                    cartTotalElem.innerText = `R$ ${total.toFixed(2)}`;
+
+                    // Adiciona eventos para os botões de remover
                     document.querySelectorAll('.remove-item').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const index = e.target.getAttribute('data-index');
                             removeCartItem(index);
                         });
                     });
-                }
-
-                function updateQuantity(index, newQuantity) {
-                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-                    if (newQuantity < 1) {
-                        removeCartItem(index);
-                    } else {
-                        cartItems[index].quantity = newQuantity;
-                        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                        loadCart();
-                    }
                 }
 
                 function removeCartItem(index) {
@@ -120,14 +98,25 @@
                     }, 1000);
                 }
 
+                function updateQuantity(index, newQuantity) {
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                    if (newQuantity < 1) {
+                        removeCartItem(index);
+                    } else {
+                        cartItems[index].quantity = newQuantity;
+                        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                        loadCart();
+                    }
+                }
+
                 document.getElementById('checkout-button').addEventListener('click', () => {
                     let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
                     let message = 'Seu pedido:\n';
                     let total = 0;
 
                     cartItems.forEach(item => {
-                        message += `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}\n`;
-                        total += item.price * item.quantity;
+                        message += `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity || 1}\n`;
+                        total += item.price * (item.quantity || 1);
                     });
 
                     message += `Total: R$ ${total.toFixed(2)}`;
@@ -135,62 +124,27 @@
                     const whatsappUrl = `https://api.whatsapp.com/send?text=${whatsappMessage}`;
 
                     window.open(whatsappUrl);
-=======
-            document.querySelectorAll('.remove-item').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const index = e.target.getAttribute('data-index');
-                    removeCartItem(index);
->>>>>>> f5cd9e0e3b926b659e7bb6d0eb51dcd6612faba3
                 });
-            });
-        }
 
-        function removeCartItem(index) {
-            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-            document.getElementById('loading-screen').style.display = 'flex';
+                function clearCart() {
+                    document.getElementById('loading-screen').style.display = 'flex';
 
-            setTimeout(() => {
-                cartItems.splice(index, 1);
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    setTimeout(() => {
+                        localStorage.removeItem('cartItems');
+                        loadCart();
+                        document.getElementById('loading-screen').style.display = 'none';
+                    }, 1000);
+                }
+
+                document.getElementById('clear-cart-button').addEventListener('click', clearCart);
+
+                // Carrega o carrinho ao inicializar
                 loadCart();
-                document.getElementById('loading-screen').style.display = 'none';
-            }, 1000);
-        }
+            </script>
 
-        document.getElementById('checkout-button').addEventListener('click', () => {
-            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-            let message = 'Seu pedido:\n';
-            let total = 0;
-
-            cartItems.forEach(item => {
-                message += `${item.name} - R$ ${item.price.toFixed(2)}\n`;
-                total += item.price;
-            });
-
-            message += `Total: R$ ${total.toFixed(2)}`;
-            const whatsappMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://api.whatsapp.com/send?text=${whatsappMessage}`;
-
-            window.open(whatsappUrl);
-        });
-
-        function clearCart() {
-            document.getElementById('loading-screen').style.display = 'flex';
-
-            setTimeout(() => {
-                localStorage.removeItem('cartItems');
-                loadCart();
-                document.getElementById('loading-screen').style.display = 'none';
-            }, 1000);
-        }
-
-        document.getElementById('clear-cart-button').addEventListener('click', clearCart);
-
-        loadCart();
-    </script>
-    <footer class="text-light text-center mb-4">
-        <p>&copy; 2024 Pedro Burguer - Todos os direitos reservados</p>
-    </footer>
+            <footer class="text-light text-center mb-4">
+                <p>&copy; 2024 Pedro Burguer - Todos os direitos reservados</p>
+            </footer>
 </body>
 
 </html>

@@ -1,4 +1,22 @@
-body {
-  margin: 0;
-  top: 0;
+.card {
+  cursor: pointer;
+}
+
+.card:hover {
+background-color: rgb(105, 98, 98) !important; 
+
+}
+.form-container{
+max-width: 8000px;
+padding-block: 409px;
+}
+
+body{
+background-image: url(/assets/img/fundoo.jpg);
+backdrop-filter: blur(6px);
+background-size:cover; 
+}
+
+.container {
+  margin-top: 25px; 
 }

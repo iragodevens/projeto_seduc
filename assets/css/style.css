@@ -3,6 +3,8 @@ body {
   background-image: url(/assets/img/fundoo.jpg);
   backdrop-filter: blur(6px);
   background-size:cover; 
+  
+
   }
 .card {
   cursor: pointer;
@@ -14,13 +16,26 @@ background-color: rgb(105, 98, 98) !important;
 
 }
 .form-container {
+  display: flex;
   flex-direction: column;
-  height: 94vh; 
+  height: auto;
+  align-items: center;
+  justify-content: flex-start;
   }
 
 .container {
   margin-top: 25px; 
+
 }
-.main{
-  padding: 150px;
+.main {
+  padding: 60px;
+  width: 100%;
+  min-height: 94.1vh; /* A main ocupa ao menos a altura total da tela */
+  height: auto;
+  box-sizing: border-box; /* Para garantir que o padding não afete o cálculo do tamanho */
+}
+footer {
+  background-color: rgba(0, 0, 0, 0.6); /* Cor do fundo do footer */
+  position: relative; /* Evita que o footer "suba" no layout */
+  z-index: 10; 
 }

@@ -8,6 +8,7 @@ body {
     min-height: 100vh; 
     backdrop-filter: blur(6px); 
     margin: 0;
+    border: 0;
 }
     
     .banner { height: 2cm;
@@ -67,12 +68,14 @@ body {
     }
     footer {
         font-family: monospace;
-        padding-top:370px;
+        padding-top: 40px;
         color: white;;
-        bottom:-58px;
         width: 100%;
-        z-index: 1000;
-    }
+        background-color: rgba(0, 0, 0, 0.6); /* Cor do fundo do footer */
+        position: relative; /* Evita que o footer "suba" no layout */
+        z-index: 10; /* Garante que o footer fique acima do conteúdo, se necessário */
+      }
+    
     .quantity-input {
         border-radius: 8px;
         width: 58px;
